@@ -15,6 +15,15 @@
   
   - Mail Servisi kullanılmak isteniyorsa, SovosCase.WebAPI/appsettings.json içerisindeki 'EmailSettings' alanları doldurulmalı.  
   
+  
+  ### Karşılaştığım Bazı Sorunlar ve Çözümleri:  
+  
+  - Şahsi bilgisayarımda bir sorun yaşamama rağmen Projeyi çalıştırmalarını rica ettiğim arkadaşlarımda Containerların kendilerini sürekli restart ettiğini gördüm. Container Volume'ları kaldırdığım zaman bu sorunun çözüldüğünü gördüm, bu durum ile ilgili yeni bir branch açtım: https://github.com/BarisClb/SovosCase/tree/novolumes  
+  
+  - Alternatif olarak, Docker-Compose ve Docker-Compose-Override dosyaları içerisindeki API bölümleri yoruma alınabilir, Servislerin hepsi ayağa kalktığında API, Proje içerisinde Debug modda çalıştırılabilir.  
+  
+  - Proje geç açılabiliyor, özellikle de ilk sefer açıldığında. SovosCase.WebAPI/Program.cs içerisindeki son satıra, app.run(), bir Breakpoint atarak Projenin ne zaman kullanıma hazır olduğunu görebilirsiniz.  
+  
   ### Servis Portları:  
   
   WebAPI/Swagger:    http://localhost:3377/swagger/index.html  
@@ -22,7 +31,7 @@
   RabbitMq:          http://localhost:15672/  
   Kibana:            http://localhost:5601/  
   
-  ### Proje Diagram:  
+  ### Proje Diagramı:  
   
   <img alt="SovosCase-Diagram" src="/SovosCase-Diagram.png">  
   
