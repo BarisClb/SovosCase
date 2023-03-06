@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  registerservicedb:
+    image: mongo
+    networks:
+        - sovoscase
+
+  storeservicedb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+        - sovoscase
+
+  rabbitmq:
+    image: rabbitmq:3.8.14-management
+    networks:
+        - sovoscase
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+    networks:
+        - sovoscase
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.1
+    networks:
+        - sovoscase
+
+  invoiceapi:
+    image: sovoscase-invoiceapi
+    networks:
+        - sovoscase
+    build:
+      context: .
+      dockerfile: SovosCase.WebAPI/Dockerfile
+      
+volumes: 
+    sovoscase-mongovolume:
+    sovoscase-sqlvolume:
+    sovoscase-elkvolume:
+
+networks:
+  sovoscase:
+    name: sovoscase-network
+    driver: bridge
+    

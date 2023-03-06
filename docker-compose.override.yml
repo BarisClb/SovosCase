@@ -1,0 +1,69 @@
+version: '3.4'
+
+services:
+  registerservicedb:
+    container_name: sovoscase-registerservicedb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - sovoscase-mongovolume:/data/db
+
+  storeservicedb:
+    container_name: sovoscase-storeservicedb
+    restart: always
+    environment:
+        SA_PASSWORD: "Password123"
+        ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sovoscase-sqlvolume:/var/opt/mssql/data
+
+  rabbitmq:
+    container_name: sovoscase-rabbitmq
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
+  elasticsearch:
+    container_name: sovoscase-elasticsearch
+    restart: always
+    environment:
+        - xpack.monitoring.enabled=true
+        - xpack.watcher.enabled=false
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - discovery.type=single-node
+    ports:
+        - "9200:9200"
+    volumes:
+      - sovoscase-elkvolume:/usr/share/elasticsearch/data
+
+  kibana:
+    container_name: sovoscase-kibana
+    restart: always
+    environment:        
+        - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+        - elasticsearch
+    ports:
+        - "5601:5601"
+
+  invoiceapi:
+    container_name: sovoscase-invoiceapi
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - "MongoDbSettings__ConnectionString=mongodb://registerservicedb:27017"
+      - "MsSqlDbSettings__ConnectionString=Server=storeservicedb,1433;Database=SovosCaseSqlDb;User=sa;Password=Password123;TrustServerCertificate=True;"
+      - "HangfireSettings__ConnectionString=Server=storeservicedb,1433;Database=SovosCaseSqlDb;User=sa;Password=Password123;TrustServerCertificate=True;"
+      - "RabbitMqSettings__ConnectionString=rabbitmq"
+      - "ElasticDbSettings__ConnectionString=http://elasticsearch:9200"
+    depends_on:
+      - registerservicedb
+      - storeservicedb
+      - rabbitmq
+      - elasticsearch
+    ports:
+      - "3377:80"
