@@ -6,8 +6,8 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    volumes:
-      - sovoscase-mongovolume:/data/db
+    #volumes:
+    #  - sovoscase-mongovolume:/data/db
 
   storeservicedb:
     container_name: sovoscase-storeservicedb
@@ -17,8 +17,8 @@ services:
         ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
-    volumes:
-      - sovoscase-sqlvolume:/var/opt/mssql/data
+    #volumes:
+    #  - sovoscase-sqlvolume:/var/opt/mssql/data
 
   rabbitmq:
     container_name: sovoscase-rabbitmq
@@ -37,8 +37,8 @@ services:
         - discovery.type=single-node
     ports:
         - "9200:9200"
-    volumes:
-      - sovoscase-elkvolume:/usr/share/elasticsearch/data
+    #volumes:
+    #  - sovoscase-elkvolume:/usr/share/elasticsearch/data
 
   kibana:
     container_name: sovoscase-kibana
