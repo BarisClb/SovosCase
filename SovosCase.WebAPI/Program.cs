@@ -9,6 +9,7 @@ using SovosCase.Infrastructure;
 using SovosCase.Persistence;
 using SovosCase.Persistence.Contexts;
 using SovosCase.WebAPI;
+using SovosCase.WebAPI.Middlewares;
 using SovosCase.WebAPI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,7 @@ app.UseSwaggerUI(s =>
 {
     s.SwaggerEndpoint("v1/swagger.json", "SovosCase");
 });
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 
