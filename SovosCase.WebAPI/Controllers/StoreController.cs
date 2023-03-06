@@ -11,13 +11,11 @@ namespace SovosCase.WebAPI.Controllers
     {
         private readonly IInvoiceSqlService _invoiceSqlService;
         private readonly ILogger<StoreController> _logger;
-        private readonly IMapper _mapper;
 
-        public StoreController(IInvoiceSqlService invoiceSqlService, ILogger<StoreController> logger, IMapper mapper)
+        public StoreController(IInvoiceSqlService invoiceSqlService, ILogger<StoreController> logger)
         {
             _invoiceSqlService = invoiceSqlService;
             _logger = logger;
-            _mapper = mapper;
         }
 
 
@@ -55,22 +53,6 @@ namespace SovosCase.WebAPI.Controllers
         {
             _logger.LogInformation($"GetStoredInvoicesList Request received: {getInvoiceListRequest}");
             return Ok(await _invoiceSqlService.GetInvoiceList(getInvoiceListRequest));
-        }
-
-        [HttpGet("automappercontrol")]
-        public async Task<IActionResult> AutoMapperControl()
-        {
-            try
-            {
-                _mapper.ConfigurationProvider.AssertConfigurationIsValid();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.Message);
-            }
-            return Ok();
         }
     }
 }
