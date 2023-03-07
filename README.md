@@ -24,6 +24,8 @@
   
   - Proje geç açılabiliyor, özellikle de ilk sefer açıldığında. SovosCase.WebAPI/Program.cs içerisindeki son satıra, app.run(), bir Breakpoint atarak Projenin ne zaman kullanıma hazır olduğunu görebilirsiniz.  
   
+  - '.dll not found', Proje içerisindeki bin ve obj dosyalarını silip Rebuild ettiğimde Compose işlemini gerçekleştirebiliyorum.  
+  
   ### Servis Portları:  
   
   WebAPI/Swagger:    http://localhost:3377/swagger/index.html  
